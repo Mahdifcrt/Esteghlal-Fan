@@ -1,6 +1,14 @@
-const express = require("express"); const session = require("express-session"); const path = require("path"); const fs = require("fs"); const multer = require("multer");
+console.log("SERVER STARTING");
+
+const express = require("express");
+const session = require("express-session");
+const path = require("path");
+const fs = require("fs");
+const multer = require("multer");
+
 const app = express();
-const PORT = process.env.PORT  3000; const ADMIN_USER = process.env.ADMIN_USER  "admin"; const ADMIN_PASS = process.env.ADMIN_PASS || "123456";
+
+const PORT = process.env.PORT || 3000;; const ADMIN_USER = process.env.ADMIN_USER  "admin"; const ADMIN_PASS = process.env.ADMIN_PASS || "123456";
 const dataDir = path.join(__dirname, "data"); const uploadDir = path.join(__dirname, "public", "uploads");
 fs.mkdirSync(dataDir, { recursive: true }); fs.mkdirSync(uploadDir, { recursive: true });
 const dbFile = path.join(dataDir, "news.json");
