@@ -4,7 +4,7 @@ const PORT = process.env.PORT  3000; const ADMIN_USER = process.env.ADMIN_USER  
 const dataDir = path.join(__dirname, "data"); const uploadDir = path.join(__dirname, "public", "uploads");
 fs.mkdirSync(dataDir, { recursive: true }); fs.mkdirSync(uploadDir, { recursive: true });
 const dbFile = path.join(dataDir, "news.json");
-if (!fs.existsSync(dbFile)) { fs.writeFileSync( dbFile, JSON.stringify( [ { id: 1, title: "استقلال برای دیدار بعدی آماده می‌شود", category: "تیم", body: "این یک خبر نمونه است. از پنل مدیریت می‌توانید این خبر را ویرایش یا حذف کنید.", image: "", breaking: true, date: new Date().toISOString() } ], null, 2 ) ); }
+if (!fs.existsSync(dbFile)) { fs.writeFileSync( dbFile, JSON.stringify( [ { id: 1, title: "استقلال برای دیدار بعدی آماده می‌شود", category: "تیم", body: "این یک خبر نمونه است.", image: "", breaking: true, date: new Date().toISOString() } ], null, 2 ) ); }
 function readNews() { return JSON.parse(fs.readFileSync(dbFile, "utf8")); }
 function writeNews(items) { fs.writeFileSync( dbFile, JSON.stringify(items, null, 2) ); }
 app.use(express.json({ limit: "2mb" })); app.use(express.urlencoded({ extended: true }));
@@ -42,8 +42,7 @@ app.post("/api/news", auth, (req, res) => { const { title, category, body, image
 if (!title || !body) { return res.status(400).json({ error: "عنوان و متن خبر الزامی است" }); }
 const items = readNews();
 const item = { id: Date.now(), title, category: category  "عمومی", body, image: image  "", breaking: !!breaking, date: new Date().toISOString() };
-items.push(item);
-writeNews(items);
+items.push(item); writeNews(items);
 res.json(item); });
 app.put("/api/news/:id", auth, (req, res) => { const items = readNews();
 const i = items.findIndex( x => x.id == req.params.id );
@@ -57,5 +56,5 @@ if (i < 0) { return res.status(404).json({ error: "خبر پیدا نشد" }); }
 const [deleted] = items.splice(i, 1);
 writeNews(items);
 res.json(deleted); });
-app.get("/admin", (_, res) => { res.sendFile( path.join( __dirname, "public", "admin.html" ) ); });
+app.get("/admin", (_, res) => { res.sendFile( path.join(__dirname, "public", "admin.html") ); });
 app.listen(PORT, "0.0.0.0", () => { console.log( Esteghlal Fan running on port ${PORT} ); });
