@@ -5,9 +5,9 @@ const fs = require("fs");
 const multer = require("multer");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-const ADMIN_USER = process.env.ADMIN_USER || "admin";
-const ADMIN_PASS = process.env.ADMIN_PASS || "123456";
+const PORT = process.env.PORT  3000;
+const ADMIN_USER = process.env.ADMIN_USER  "admin";
+const ADMIN_PASS = process.env.ADMIN_PASS  "123456";
 
 const dataDir = path.join(__dirname, "data");
 const uploadDir = path.join(__dirname, "public", "uploads");
@@ -24,7 +24,7 @@ function writeNews(items){ fs.writeFileSync(dbFile, JSON.stringify(items,null,2)
 
 app.use(express.json({limit:"2mb"}));
 app.use(express.urlencoded({extended:true}));
-app.use(session({secret:process.env.SESSION_SECRET||"esteghlal-fan-secret",resave:false,saveUninitialized:false,cookie:{httpOnly:true}}));
+app.use(session({secret:process.env.SESSION_SECRET"esteghlal-fan-secret",resave:false,saveUninitialized:false,cookie:{httpOnly:true}}));
 app.use(express.static(path.join(__dirname,"public")));
 
 const storage = multer.diskStorage({
@@ -61,9 +61,9 @@ app.post("/api/upload",auth,upload.single("image"),(req,res)=>{
 
 app.post("/api/news",auth,(req,res)=>{
   const {title,category,body,image,breaking} = req.body;
-  if(!title || !body) return res.status(400).json({error:"عنوان و متن خبر الزامی است"});
+  if(!title  !body) return res.status(400).json({error:"عنوان و متن خبر الزامی است"});
   const items=readNews();
-  const item={id:Date.now(),title,category:category||"عمومی",body,image:image||"",breaking:!!breaking,date:new Date().toISOString()};
+  const item={id:Date.now(),title,category:category"عمومی",body,image:image||"",breaking:!!breaking,date:new Date().toISOString()};
   items.push(item); writeNews(items); res.json(item);
 });
 app.put("/api/news/:id",auth,(req,res)=>{
@@ -79,4 +79,4 @@ app.delete("/api/news/:id",auth,(req,res)=>{
 });
 
 app.get("/admin",(_,res)=>res.sendFile(path.join(__dirname,"public","admin.html")));
-app.listen(PORT,()=>console.log(`Esteghlal Fan running on http://localhost:${PORT}`));
+app.listen(PORT,()=>console.log(Esteghlal Fan running on http://localhost:${PORT}));
