@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>استقلال‌فن | اخبار استقلال</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:#f4f6f9;color:#172033}
+header{background:#0756a8;color:white;padding:18px 6%}.bar{display:flex;align-items:center;justify-content:space-between;gap:15px}.logo{font-size:28px;font-weight:900}.logo span{color:#a9d5ff}
+nav a{color:#fff;text-decoration:none;margin:0 9px;font-size:14px}.wrap{width:88%;max-width:1200px;margin:auto}.breaking{margin:18px 0;background:#fff;border-right:5px solid #e3262e;padding:14px;border-radius:10px}.breaking b{color:#e3262e}.hero{background:linear-gradient(135deg,#063d78,#0874dc);color:white;border-radius:18px;padding:38px;margin-bottom:25px}.hero h1{font-size:32px;margin:10px 0}.hero p{line-height:2;color:#e7f1ff}.grid{display:grid;grid-template-columns:2fr 1fr;gap:22px}.panel{background:#fff;border-radius:16px;padding:20px;box-shadow:0 5px 20px #0000000d}.panel h2{margin-top:0}.news{padding:15px 0;border-bottom:1px solid #eee}.news:last-child{border:0}.news h3{margin:5px 0}.meta{font-size:12px;color:#788397}.tag{display:inline-block;background:#e8f2ff;color:#0756a8;border-radius:20px;padding:5px 9px;font-size:11px;margin-left:7px}.card{background:#fff;border-radius:16px;padding:20px;margin-top:22px}.admin{display:inline-block;background:#fff;color:#0756a8;padding:9px 13px;border-radius:9px;text-decoration:none;font-size:13px}
+@media(max-width:800px){.grid{grid-template-columns:1fr}.hero h1{font-size:24px}nav{display:none}.wrap{width:94%}}
+</style></head><body>
+<header><div class="bar"><div class="logo">استقلال<span>‌فن</span></div><nav><a href="/">خانه</a><a href="#news">آخرین اخبار</a><a href="#about">درباره</a><a class="admin" href="/admin">پنل مدیریت</a></nav></div></header>
+<main class="wrap">
+<div class="breaking"><b>خبر فوری:</b> <span id="breakingText">در حال دریافت آخرین خبر...</span></div>
+<section class="hero"><div>استقلال‌فن | نبض آبی‌ها</div><h1 id="heroTitle">در حال بارگذاری اخبار...</h1><p id="heroBody"></p></section>
+<div class="grid"><section class="panel" id="news"><h2>آخرین اخبار استقلال</h2><div id="newsList"></div></section>
+<aside class="panel"><h2>اخبار فوری</h2><div id="sideList"></div><div class="card" id="about"><b>استقلال‌فن</b><p>پایگاه خبری هواداران استقلال؛ خبرها از طریق پنل مدیریت قابل انتشار هستند.</p></div></aside></div>
+</main>
+<script>
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+async function load(){const r=await fetch("/api/news");const n=await r.json();if(!n.length)return;
+document.querySelector("#heroTitle").textContent=n[0].title;document.querySelector("#heroBody").textContent=n[0].body;
+const b=n.find(x=>x.breaking)||n[0];document.querySelector("#breakingText").textContent=b.title;
+document.querySelector("#newsList").innerHTML=n.map(x=>`<article class="news"><div><span class="tag">${esc(x.category)}</span><span class="meta">${new Date(x.date).toLocaleDateString("fa-IR")}</span></div><h3>${esc(x.title)}</h3><div>${esc(x.body.slice(0,180))}${x.body.length>180?"…":""}</div></article>`).join("");
+document.querySelector("#sideList").innerHTML=n.filter(x=>x.breaking).slice(0,6).map(x=>`<div class="news"><h3>${esc(x.title)}</h3></div>`).join("")||"<p>خبر فوری ثبت نشده است.</p>"}
+load();
+</script></body></html>
