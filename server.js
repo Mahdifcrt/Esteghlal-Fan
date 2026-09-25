@@ -9,7 +9,7 @@ const PORT = process.env.PORT  3000;
 const ADMIN_USER = process.env.ADMIN_USER  "admin";
 const ADMIN_PASS = process.env.ADMIN_PASS  "123456";
 
-const dataDir = path.join(__dirname, "data");
+const dataDir = path.join(dirname, "data");
 const uploadDir = path.join(__dirname, "public", "uploads");
 fs.mkdirSync(dataDir, { recursive: true });
 fs.mkdirSync(uploadDir, { recursive: true });
@@ -28,7 +28,7 @@ app.use(session({secret:process.env.SESSION_SECRET"esteghlal-fan-secret",resave:
 app.use(express.static(path.join(__dirname,"public")));
 
 const storage = multer.diskStorage({
-  destination: (_,__,cb)=>cb(null, uploadDir),
+  destination: (_,,cb)=>cb(null, uploadDir),
   filename: (_,file,cb)=>{
     const ext = path.extname(file.originalname).toLowerCase();
     cb(null, Date.now()+"-"+Math.random().toString(36).slice(2)+ext);
